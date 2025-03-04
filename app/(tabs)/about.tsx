@@ -1,20 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { StatusBar } from 'expo-status-bar'
-import { Link } from 'expo-router'
 
-
-const NotFoundScreen = () => {
+const AboutScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.text}>Error 404</Text>
-      <Link href={'/(tabs)'} style={styles.text}>Go to Home</Link>
+      <Text style={styles.text}>About Uber.</Text>
     </SafeAreaView>
   )
 }
 
-export default NotFoundScreen
+export default AboutScreen
 
 const styles = StyleSheet.create({
     container: {

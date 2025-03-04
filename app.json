@@ -1,11 +1,16 @@
 {
   "expo": {
-    "name": "uber-clone",
-    "slug": "uber-clone",
+    "name": "PeekaBoo",
+    "slug": "PeekaBoo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icon.jpeg",
     "scheme": "myapp",
+    "splash": {
+      "image": "./assets/images/icon.jpeg",
+      "resizeMode": "contain",
+      "backgroundColor": "#171717"
+    },
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -13,9 +18,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/images/icon.jpeg",
+        "backgroundColor": "#171717"
+      },
+      "package": "com.brown_wangeci.PeekaBoo"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +42,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3fed6759-822d-41f1-8ead-8f0daa344690"
+      }
     }
   }
 }
