@@ -22,15 +22,15 @@ export default function TabsLayout() {
         name="index"
         options={{
             title: "Home",
-            tabBarIcon: ({focused, color})=><Ionicons name={focused ? "home-sharp": "home-outline"} color={color} size={20} />  ,
-            headerTitle: "Peek a Boo",
+            tabBarIcon: ({color})=><Ionicons name="home-sharp" color={color} size={20} />  ,
+            headerTitle: "PeekaBoo",
       }}/>
       <Tabs.Screen
         name="about"
         options={{
             title: "About",
-            tabBarIcon: ({focused, color})=><Ionicons name={focused ? "navigate-sharp": "navigate-outline" } color={color} size={20}/>,
-            headerTitle: "About Peek a Boo",
+            tabBarIcon: ({color})=><Ionicons name="chatbubble-ellipses" color={color} size={20}/>,
+            headerTitle: "About PeekaBoo",
       }}/>
     </Tabs>
   );

@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 type Props = {
     icon: keyof typeof MaterialIcons.glyphMap,
-    label: string
+    label: string,
     onPress?: () => void
 }
 
@@ -25,10 +25,12 @@ const styles = StyleSheet.create({
     iconButton: {
         gap: 5,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        maxWidth: 48,  
     },
     iconButtonLabel: {
         color: "whitesmoke",
         fontSize: 12,
+        wordWrap: "break-word", 
     }
 })

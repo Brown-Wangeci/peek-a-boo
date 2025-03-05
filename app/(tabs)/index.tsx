@@ -1,21 +1,25 @@
 import ImageViewer from "@/components/ImageViewer";
-import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
+import { StyleSheet, View, Alert } from "react-native";
+import React, { useState, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { captureRef } from "react-native-view-shot";
-import ViewShot from "react-native-view-shot";
 import * as MediaLibrary from 'expo-media-library';
+import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system";
 import Button from "@/components/Button";
 import * as ImagePicker from 'expo-image-picker';
 import IconButton from "@/components/IconButton";
 import CircleButton from "@/components/CircleButton";
 import EmojiPicker from "@/components/EmojiPicker";
+import StickerList from "@/components/StickerList";
+import StickerInImage from "@/components/StickerInImage";
 const placeholderImage = require('@/assets/images/icon.jpeg')
 
 export default function Index() {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
   const [ showAppOptions, setShowAppOptions ] = useState<boolean>(false);
   const [ isModalVisible, setIsModalVisible ] = useState<boolean>(false);
+  const [ stickerInImage, setStickerInImage ] = useState<string | undefined>(undefined);
   const memeRef = useRef(null);
 
 
@@ -43,6 +47,7 @@ export default function Index() {
 
   const onReset = () => {
     setShowAppOptions(false);
+    setStickerInImage(undefined);
   }
 
   const onSaveImage = async () => {
@@ -55,7 +60,9 @@ export default function Index() {
 
       const uri = await captureRef(memeRef, {
         format: 'png',
-        quality: 1
+        quality: 1,
+        width: 1080,
+        height: 1080,
       });
   
       await MediaLibrary.saveToLibraryAsync(uri);
@@ -67,9 +74,37 @@ export default function Index() {
     }
   }
 
+  const onShareImageAsync = async () => {
+    try {
+      const uri = await captureRef(memeRef, {
+        format: 'png',
+        quality: 1,
+        width: 1080,
+        height: 1080,
+      });
+
+      // Save locally before sharing
+      const fileUri = `${FileSystem.documentDirectory}captured_image.png`;
+      await FileSystem.copyAsync({ from: uri, to: fileUri });
+
+      // Check if sharing is available
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(fileUri);
+      } else {
+        Alert.alert("Sharing not available on this device");
+      }
+    } catch (error) {
+      Alert.alert('Failed to share image');
+    }
+  }
+
   const onAddSticker = () => {
     setIsModalVisible(true);
   }
+
+  const onResetSticker = () => {
+    setStickerInImage(undefined);
+  } 
 
   const onModalCLose = () => {
     setIsModalVisible(false);
@@ -79,14 +114,17 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
       <View ref={memeRef} style={styles.imageContainer}>
         <ImageViewer imgSrc={selectedImage || placeholderImage}/>
+        { stickerInImage && <StickerInImage image={stickerInImage}/>}
       </View>
       { showAppOptions ? 
         (
           <View style={styles.appOptionsContainer}>
             <View style={styles.appOptionsRow}>
+              <IconButton label='Remove sticker' icon='cancel' onPress={onResetSticker}/>
               <IconButton label='Reset' icon='refresh' onPress={onReset}/>
               <CircleButton onPress={onAddSticker}/>
               <IconButton label='Save' icon='save-alt' onPress={onSaveImage}/>
+              <IconButton label='Share' icon='share' onPress={onShareImageAsync}/>
             </View>
           </View>
         )
@@ -100,7 +138,7 @@ export default function Index() {
         )
       }
       <EmojiPicker isVisible={isModalVisible} onClose={onModalCLose}>
-        <></>
+        <StickerList setStickerInImage={setStickerInImage} />
       </EmojiPicker>
     </SafeAreaView>
   );
@@ -143,6 +181,6 @@ const styles = StyleSheet.create({
   appOptionsRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 52
+    gap: 28
   }
 })

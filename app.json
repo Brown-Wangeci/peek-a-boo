@@ -49,7 +49,9 @@
       },
       "eas": {
         "projectId": "3fed6759-822d-41f1-8ead-8f0daa344690"
-      }
+      },
+      "GIPHY_API_KEY": "YJwlno0mc37fqy8a2xZjHRRQ24UEOEmu",
+      "APP_NAME": "PeekaBoo"
     }
   }
 }
